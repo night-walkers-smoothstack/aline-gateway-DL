@@ -3,9 +3,9 @@ pipeline{
         label "docker && maven"
     }
     environment {
-        REGISTRY-URI="public.ecr.aws/l4g0u1s9/aline-services-dl"
-        APP-NAME=""
-        APP-VERSION=""
+        REGISTRY_URI="public.ecr.aws/l4g0u1s9/aline-services-dl"
+        APP_NAME="aline-gateway"
+        APP_VERSION="0.0.1-SNAPSHOT"
     }
     stages{
         stage("Package"){
@@ -27,7 +27,7 @@ pipeline{
         stage("Build"){
             steps{
                 sh """
-                    docker build -t ${APP-NAME}:${APP-VERSION}
+                    docker build -t ${APP_NAME}:${APP_VERSION}
                 """
             }
         }
@@ -36,9 +36,9 @@ pipeline{
             steps{
                 sh """
                     # add repo tag
-                    docker tag ${APP-NAME}:${APP-VERSION} ${REGISTRY-URI}/${APP-NAME}:${APP-VERSION}
+                    docker tag ${APP_NAME}:${APP_VERSION} ${REGISTRY_URI}/${APP_NAME}:${APP_VERSION}
                     # push to repo
-                    docker push ${REGISTRY-URI}/${APP-NAME}:${APP-VERSION}
+                    docker push ${REGISTRY_URI}/${APP_NAME}:${APP_VERSION}
                 """
             }
         }
