@@ -1,8 +1,15 @@
-FROM openjdk:19-jdk-alpine3.15
+FROM openjdk:8-jre-slim-buster
 LABEL maintainer "Dylan Luttrell"
+# arguments for service name, its directory, and version
+ARG NAME=aline-gateway
+ARG DIR=.
+ARG VERSION=*
+# copy from local dir to container
 WORKDIR /app
-COPY ./target/aline-gateway-0.0.1-SNAPSHOT.jar aline-gateway-0.0.1-SNAPSHOT.jar
+COPY ${DIR}/target/${NAME}-${VERSION}.jar service.jar
+# set enviroment variables for database dialect and modification mode
 ENV DB_PLATFORM=org.hibernate.dialect.H2Dialect
 ENV DDL_AUTO_MODE=create-only
-EXPOSE 8080
-CMD ["java", "-jar", "aline-gateway-0.0.1-SNAPSHOT.jar"]
+
+EXPOSE 8071
+CMD ["java", "-jar", "service.jar"]
